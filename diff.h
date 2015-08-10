@@ -268,7 +268,7 @@ AD<N> exp(AD<N> const& A)
 {
   AD<N> tmp(exp(A.val()));
   for (unsigned int i=0; i < N; ++i)
-    tmp.dx(i) = A.dx(i) * exp(A.val());
+    tmp.dx(i) = A.dx(i) * std::exp(A.val());
   return tmp;
 }
 
@@ -276,7 +276,7 @@ AD<N> exp(AD<N> const& A)
 template <unsigned int N>
 AD<N> log(AD<N> const& A)
 {
-  AD<N> tmp(log(A.val()));
+  AD<N> tmp(std::log(A.val()));
   for (unsigned int i=0; i < N; ++i)
     tmp.dx(i) = A.dx(i) / A.val();
   return tmp;
@@ -286,9 +286,9 @@ AD<N> log(AD<N> const& A)
 template <unsigned int N>
 AD<N> pow(AD<N> const& A, int e)
 {
-  AD<N> tmp(pow(A.val(), (double)e));
+  AD<N> tmp(std::pow(A.val(), (double)e));
   for (unsigned int i=0; i < N; ++i)
-    tmp.dx(i) = e*A.dx(i)*pow(A.val(), (double)e-1.);
+    tmp.dx(i) = e*A.dx(i)*std::pow(A.val(), (double)e-1.);
   return tmp;
 }
 
@@ -296,9 +296,9 @@ AD<N> pow(AD<N> const& A, int e)
 template <unsigned int N>
 AD<N> pow(AD<N> const& A, double e)
 {
-  AD<N> tmp(pow(A.val(), e));
+  AD<N> tmp(std::pow(A.val(), e));
   for (unsigned int i=0; i < N; ++i)
-    tmp.dx(i) = e*A.dx(i)*pow(A.val(), e-1.);
+    tmp.dx(i) = e*A.dx(i)*std::pow(A.val(), e-1.);
   return tmp;
 }
 
@@ -306,10 +306,10 @@ AD<N> pow(AD<N> const& A, double e)
 template <unsigned int N>
 AD<N> pow(AD<N> const& A, AD<N> const& e)
 {
-  AD<N> tmp(pow(A.val(), e.val()));
+  AD<N> tmp(std::pow(A.val(), e.val()));
   for (unsigned int i=0; i < N; ++i)
-    tmp.dx(i) = e.dx(i) * log(A.val()) * pow(A.val(), e.val()) +
-      e.val() * A.dx(i) * pow(A.val(), e.val()-1.);
+    tmp.dx(i) = e.dx(i) * std::log(A.val()) * std::pow(A.val(), e.val()) +
+      e.val() * A.dx(i) * std::pow(A.val(), e.val()-1.);
   return tmp;
 }
 
