@@ -1,6 +1,8 @@
 #ifndef DIFF_H
 #define DIFF_H
 
+#include <cmath>
+
 namespace diff {
 
 /** \brief forward automatic differentiation variable */
@@ -254,6 +256,159 @@ AD<N> operator/(AD<N> const& L, AD<N> const& R)
     tmp.dx(i) = (L.dx(i) * R.val() - L.val() * R.dx(i) ) / (R.val() * R.val());
   tmp.val() = L.val() / R.val();
   return tmp;
+}
+
+/********************
+  * FANCY FUNCIONS *
+*********************/
+
+/** \brief exponent of an AD variable */
+template <unsigned int N>
+AD<N> exp(AD<N> const& A)
+{
+  AD<N> tmp(exp(A.val()));
+  for (unsigned int i=0; i < N; ++i)
+    tmp.dx(i) = A.dx(i) * exp(A.val());
+  return tmp;
+}
+
+/** \brief logarithm of an AD variable */
+template <unsigned int N>
+AD<N> log(AD<N> const& A)
+{
+  AD<N> tmp(log(A.val()));
+  for (unsigned int i=0; i < N; ++i)
+    tmp.dx(i) = A.dx(i) / A.val();
+  return tmp;
+}
+
+/** \brief AD variable raised to an integer power */
+template <unsigned int N>
+AD<N> pow(AD<N> const& A, int e)
+{
+  AD<N> tmp(pow(A.val(), (double)e));
+  for (unsigned int i=0; i < N; ++i)
+    tmp.dx(i) = e*A.dx(i)*pow(A.val(), (double)e-1.);
+  return tmp;
+}
+
+/** \brief AD variable raised to a double power */
+template <unsigned int N>
+AD<N> pow(AD<N> const& A, double e)
+{
+  AD<N> tmp(pow(A.val(), e));
+  for (unsigned int i=0; i < N; ++i)
+    tmp.dx(i) = e*A.dx(i)*pow(A.val(), e-1.);
+  return tmp;
+}
+
+/** \brief AD variable raised to an AD variable power */
+template <unsigned int N>
+AD<N> pow(AD<N> const& A, AD<N> const& e)
+{
+  AD<N> tmp(pow(A.val(), e.val()));
+  for (unsigned int i=0; i < N; ++i)
+    tmp.dx(i) = e.dx(i) * log(A.val()) * pow(A.val(), e.val()) +
+      e.val() * A.dx(i) * pow(A.val(), e.val()-1.);
+  return tmp;
+}
+
+/** \brief absolute value of an AD variable */
+template <unsigned int N>
+AD<N> abs(AD<N> const& A)
+{
+  int sign = A.val() > 0 ? 1 : 0;
+  if (sign) return A;
+  else return (-A);
+}
+
+/**************************
+  * COMPARISON OPERATORS *
+***************************/
+
+/** \brief double less than an AD variable */
+template <unsigned int N>
+bool operator<(double L, AD<N> const& R)
+{
+  return L < R.val();
+}
+
+/** \brief AD variable less than a double */
+template <unsigned int N>
+bool operator<(AD<N> const& R, double L)
+{
+  return R.val() < L;
+}
+
+
+/** \brief AD variable less than an AD variable */
+template <unsigned int N>
+bool operator<(AD<N> const& R, AD<N> const& L)
+{
+  return R.val() < L.val();
+}
+
+/** \brief double less than or equal to an AD variable */
+template <unsigned int N>
+bool operator<=(double L, AD<N> const& R)
+{
+  return L <= R.val();
+}
+
+/** \brief AD variable less than or equal to a double */
+template <unsigned int N>
+bool operator<=(AD<N> const& R, double L)
+{
+  return R.val() <= L;
+}
+
+/** \brief AD variable less than or equal to an AD variable */
+template <unsigned int N>
+bool operator<=(AD<N> const& R, AD<N> const& L)
+{
+  return R.val() <= L.val();
+}
+
+/** \brief double greater than an AD variable */
+template <unsigned int N>
+bool operator>(double L, AD<N> const& R)
+{
+  return L > R.val();
+}
+
+/** \brief AD variable greater than a double */
+template <unsigned int N>
+bool operator>(AD<N> const& R, double L)
+{
+  return R.val() > L;
+}
+
+/** \brief AD variable greater than an AD variable */
+template <unsigned int N>
+bool operator>(AD<N> const& R, AD<N> const& L)
+{
+  return R.val() > L.val();
+}
+
+/** \brief double greater than or equal to an AD variable */
+template <unsigned int N>
+bool operator>=(double L, AD<N> const& R)
+{
+  return L >= R.val();
+}
+
+/** \brief AD variable greater than or equal to a double */
+template <unsigned int N>
+bool operator>=(AD<N> const& R, double L)
+{
+  return R.val() >= L;
+}
+
+/** \brief AD variable greater than or equal to an AD variable */
+template <unsigned int N>
+bool operator>=(AD<N> const& R, AD<N> const& L)
+{
+  return R.val() >= L.val();
 }
 
 }
