@@ -266,7 +266,7 @@ AD<N> operator/(AD<N> const& L, AD<N> const& R)
 template <unsigned int N>
 AD<N> exp(AD<N> const& A)
 {
-  AD<N> tmp(exp(A.val()));
+  AD<N> tmp(std::exp(A.val()));
   for (unsigned int i=0; i < N; ++i)
     tmp.dx(i) = A.dx(i) * std::exp(A.val());
   return tmp;
