@@ -120,6 +120,10 @@ class AD
     }
 };
 
+/***********************
+  * BINARY OPERATIONS *
+************************/
+
 /** \brief binary addition between a double and an AD variable */
 template <unsigned int N>
 AD<N> operator+(double L, AD<N> const& R)
@@ -142,7 +146,7 @@ AD<N> operator+(AD<N> const& L, double R)
   return tmp;
 }
 
-/** \brief binary addition between two AD variables*/
+/** \brief binary addition between two AD variables */
 template <unsigned int N>
 AD<N> operator+(AD<N> const& L, AD<N> const& R)
 {
@@ -151,6 +155,38 @@ AD<N> operator+(AD<N> const& L, AD<N> const& R)
     tmp.dx(i) = L.dx(i) + R.dx(i);
   tmp.val() = L.val() + R.val();
   return tmp;
+}
+
+/** \brief binary subtraction between a double and an AD variable */
+template <unsigned int N>
+AD<N> operator-(double L, AD<N> const& R)
+{
+  AD<N> tmp;
+  for (unsigned int i=0; i < N; ++i)
+    tmp.dx(i) = -R.dx(i);
+  tmp.val() = L - R.val();
+  return tmp;
+}
+
+/** \brief binary subtraction between an AD variable and a double */
+template <unsigned int N>
+AD<N> operator-(AD<N> const& L, double R)
+{
+  AD<N> tmp;
+  for (unsigned int i=0; i < N; ++i)
+    tmp.dx(i) = L.dx(i);
+  tmp.val() = L.val() - R;
+  return tmp;
+}
+
+/** \brief binary subtraction between two AD variables */
+template <unsigned int N>
+AD<N> operator-(AD<N> const& L, AD<N> const& R)
+{
+  AD<N> tmp;
+  for (unsigned int i=0; i < N; ++i)
+    tmp.dx(i) = L.dx(i) - R.dx(i);
+  tmp.val() = L.val() - R.val();
 }
 
 }
