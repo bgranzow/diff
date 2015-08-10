@@ -187,6 +187,7 @@ AD<N> operator-(AD<N> const& L, AD<N> const& R)
   for (unsigned int i=0; i < N; ++i)
     tmp.dx(i) = L.dx(i) - R.dx(i);
   tmp.val() = L.val() - R.val();
+  return tmp;
 }
 
 /** \brief binary multiplication between a double and an AD variable */
@@ -241,6 +242,7 @@ AD<N> operator/(AD<N> const& L, double R)
   for (unsigned int i=0; i < N; ++i)
     tmp.dx(i) = L.dx(i) / R;
   tmp.val() = L.val() / R;
+  return tmp;
 }
 
 /** \brief binary division between two AD variables */
@@ -250,6 +252,7 @@ AD<N> operator/(AD<N> const& L, AD<N> const& R)
   AD<N> tmp;
   for (unsigned int i=0; i < N; ++i)
     tmp.dx(i) = (L.dx(i) * R.val() - L.val() * R.dx(i) ) / (R.val() * R.val());
+  tmp.val() = L.val() / R.val();
   return tmp;
 }
 
