@@ -340,7 +340,6 @@ bool operator<(AD<N> const& R, double L)
   return R.val() < L;
 }
 
-
 /** \brief AD variable less than an AD variable */
 template <unsigned int N>
 bool operator<(AD<N> const& R, AD<N> const& L)
