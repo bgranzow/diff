@@ -5,10 +5,8 @@
 int main()
 {
   typedef diff::ValExpr<diff::AD<1> > Val;
-  Val x;
-  Val y;
-  x.val() = 123.0;
-  y.val() = 42.0;
+  Val x = 123.0;
+  Val y = 42.0;
   x.dx(0) = 1.0;
   Val f = x * y;
   printf("the value of (%f * %f) is %f\n", x.val(), y.val(), f.val());
