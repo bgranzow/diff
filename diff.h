@@ -15,6 +15,8 @@ class AD
     /** \brief the derivative array */
     double dx_[N];
   public:
+    /** \brief the number of derivatives */
+    enum { degree = N };
     /** \brief default constructor */
     AD():x_(0.) {zero();}
     /** \brief construct from a double */

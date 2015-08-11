@@ -188,7 +188,7 @@ class DivExpr : public CRTPExpr<DivExpr<L, R> > {
     }
     double dx(unsigned i) const
     {
-      return (l_.dx(i) * r_.val() - l_.va() * r_.dx(i)) / (r_.val() * r_.va());
+      return (l_.dx(i) * r_.val() - l_.val() * r_.dx(i)) / (r_.val() * r_.val());
     }
 };
 
@@ -260,7 +260,7 @@ class PowExpr : public CRTPExpr<PowExpr<L, R> > {
     double dx(unsigned i) const
     {
       return r_.dx(i) * std::log(l_.val()) * std::pow(l_.val(), r_.val()) +
-             r_.val() * l_.dx(i) * std::pow(l_.va(), r_.val() - 1.0);
+             r_.val() * l_.dx(i) * std::pow(l_.val(), r_.val() - 1.0);
     }
 };
 
