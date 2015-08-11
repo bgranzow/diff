@@ -124,6 +124,19 @@ class AD
     }
 };
 
+/**********************
+  * UNARY OPERATIONS *
+***********************/
+
+/** \brief unary subtraction */
+template <unsigned int N>
+AD<N> operator-(AD<N> const& A)
+{
+  AD<N> tmp;
+  tmp -= A;
+  return tmp;
+}
+
 /***********************
   * BINARY OPERATIONS *
 ************************/
