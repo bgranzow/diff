@@ -51,6 +51,10 @@ class ValExpr : public CRTPExpr<ValExpr<T> > {
       v_(v)
     {
     }
+    ValExpr(double v):
+      v_(v)
+    {
+    }
     template <class R>
     ValExpr(CRTPExpr<R> const& r)
     {
