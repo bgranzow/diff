@@ -66,6 +66,12 @@ class ValExpr : public CRTPExpr<ValExpr<T> > {
       assign(r);
       return *this;
     }
+    void diff(unsigned int idx)
+    {
+      for (int i=0; i < ValExpr<T>::degree; ++i)
+        this->dx(i) = 0.0;
+      this->dx(idx) = 1.0;
+    }
     double val() const
     {
       return v_.val();
